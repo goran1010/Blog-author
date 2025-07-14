@@ -6,6 +6,7 @@ import CreateComment from "../CreateComment/CreateComment.jsx";
 import EditPost from "../EditPost/EditPost.jsx";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../Spinner/Spinner.jsx";
+const VITE_URL = import.meta.env.VITE_URL || "http://localhost:3000";
 
 function Post() {
   const navigator = useNavigate();
@@ -25,7 +26,7 @@ function Post() {
   }, [fetchPost]);
 
   async function deletePost() {
-    const response = await fetch(`http://localhost:3000/api/posts/${post.id}`, {
+    const response = await fetch(`${VITE_URL}/api/posts/${post.id}`, {
       mode: "cors",
       method: "DELETE",
       headers: {

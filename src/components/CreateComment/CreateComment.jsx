@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
+const VITE_URL = import.meta.env.VITE_URL || "http://localhost:3000";
 
 export default function CreateComment({ postId, commentCreated }) {
   const { user } = useOutletContext();
@@ -9,7 +10,7 @@ export default function CreateComment({ postId, commentCreated }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const text = editorRef.current.getContent();
-    await fetch(`http://localhost:3000/api/posts/${postId}/comments`, {
+    await fetch(`${VITE_URL}/posts/${postId}/comments`, {
       mode: "cors",
       method: "POST",
       headers: {

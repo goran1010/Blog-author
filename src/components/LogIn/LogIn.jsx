@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useOutletContext, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+const VITE_URL = import.meta.env.VITE_URL || "http://localhost:3000";
 
 function LogIn() {
   const { setUser } = useOutletContext();
@@ -9,7 +10,7 @@ function LogIn() {
   const navigator = useNavigate();
   async function handleSubmit(e) {
     e.preventDefault();
-    const response = await fetch("http://localhost:3000/log-in", {
+    const response = await fetch(`${VITE_URL}/log-in`, {
       mode: "cors",
       method: "POST",
       headers: { "Content-Type": "application/json" },

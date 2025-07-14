@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
+const VITE_URL = import.meta.env.VITE_URL || "http://localhost:3000";
 
 export default function EditPost({ postCreated, post }) {
   const { user } = useOutletContext();
@@ -22,7 +23,7 @@ export default function EditPost({ postCreated, post }) {
     if (!text) {
       text = post.text;
     }
-    await fetch(`http://localhost:3000/api/posts/${post.id}`, {
+    await fetch(`${VITE_URL}/api/posts/${post.id}`, {
       mode: "cors",
       method: "PUT",
       headers: {

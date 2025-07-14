@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+const VITE_URL = import.meta.env.VITE_URL || "http://localhost:3000";
 
 function Register() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ function Register() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:3000/api/users", {
+    const response = await fetch(`${VITE_URL}/api/users`, {
       mode: "cors",
       method: "POST",
       headers: { "Content-Type": "application/json" },
