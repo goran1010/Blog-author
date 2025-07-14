@@ -54,6 +54,7 @@ function Post() {
       <div className="post">
         <h1>{post.title}</h1>
         <p>{post.User.username}</p>
+        {post.isPublished ? <p>Is LIVE</p> : <p>Is NOT Live</p>}
         <div>{post.text}</div>
         <p>{post.created}</p>
         <EditPost postCreated={fetchPost} post={post} />
