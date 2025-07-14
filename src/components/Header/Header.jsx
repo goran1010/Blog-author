@@ -1,4 +1,5 @@
 import { useOutletContext, Link } from "react-router-dom";
+import Spinner from "../Spinner/Spinner.jsx";
 
 function Home() {
   const { user, setUser, loadingUser } = useOutletContext();
@@ -8,7 +9,11 @@ function Home() {
   }
 
   if (loadingUser) {
-    return <header>Loading User...</header>;
+    return (
+      <header>
+        <Spinner />
+      </header>
+    );
   }
   return (
     <>

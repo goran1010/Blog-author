@@ -4,6 +4,7 @@ import getAllPosts from "../../scripts/getAllPosts.js";
 import { Link, useOutletContext } from "react-router-dom";
 import formatDateTime from "../../scripts/formatDateTime.js";
 import CreatePost from "../CreatePost/CreatePost.jsx";
+import Spinner from "../Spinner/Spinner.jsx";
 
 function Home() {
   const [loadingPosts, setLoadingPosts] = useState(true);
@@ -16,14 +17,23 @@ function Home() {
   async function fetchAllPosts() {
     const newPosts = await getAllPosts();
     setAllPosts(newPosts);
-    setLoadingPosts(false);
   }
   useEffect(() => {
-    fetchAllPosts();
+    try {
+      fetchAllPosts();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingPosts(false);
+    }
   }, []);
 
   if (loadingPosts) {
-    return <main>Loading ...</main>;
+    return (
+      <main>
+        <Spinner />
+      </main>
+    );
   }
 
   return (

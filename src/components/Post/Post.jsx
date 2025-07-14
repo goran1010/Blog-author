@@ -5,6 +5,7 @@ import Comments from "../Comments/Comments.jsx";
 import CreateComment from "../CreateComment/CreateComment.jsx";
 import EditPost from "../EditPost/EditPost.jsx";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../Spinner/Spinner.jsx";
 
 function Post() {
   const navigator = useNavigate();
@@ -42,7 +43,11 @@ function Post() {
   }
 
   if (loading) {
-    return <main>Loading...</main>;
+    return (
+      <main>
+        <Spinner />
+      </main>
+    );
   }
   return (
     <main>
