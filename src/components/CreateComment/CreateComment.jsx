@@ -1,15 +1,14 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { useOutletContext } from "react-router-dom";
+import { Editor } from "@tinymce/tinymce-react";
 
 export default function CreateComment({ postId, commentCreated }) {
   const { user } = useOutletContext();
-  const [text, setText] = useState("");
-  function handleText(e) {
-    setText(e.target.value);
-  }
+  const editorRef = useRef(null);
 
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const text = editorRef.current.getContent();
     await fetch(`http://localhost:3000/api/posts/${postId}/comments`, {
       mode: "cors",
       method: "POST",
@@ -20,22 +19,26 @@ export default function CreateComment({ postId, commentCreated }) {
       body: JSON.stringify({ text }),
     });
     commentCreated();
-    setText("");
-  }
+    editorRef.current.setContent("");
+  };
 
   return (
     <form onSubmit={handleSubmit}>
       <legend>Create a new comment:</legend>
-      <div className="text">
-        <label htmlFor="text">Write text:</label>
-        <textarea
-          name="text"
-          id="text"
-          value={text}
-          onChange={handleText}
-        ></textarea>
-        <button type="submit">Post comment</button>
-      </div>
+      <Editor
+        apiKey="aldlsz4vjcvdf3wag1e3d6n2nlx252mfjhc239fjuilwbt9l"
+        onInit={(evt, editor) => (editorRef.current = editor)}
+        initialValue=""
+        init={{
+          height: 300,
+          width: 400,
+          menubar: false,
+          plugins: "link image code",
+          toolbar:
+            "undo redo | formatselect | bold italic | alignleft aligncenter alignright | code",
+        }}
+      />
+      <button type="submit">Post comment</button>
     </form>
   );
 }

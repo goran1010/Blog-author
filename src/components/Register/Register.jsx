@@ -19,7 +19,7 @@ function Register() {
       mode: "cors",
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password, isAuthor: false }),
+      body: JSON.stringify({ username, password, isAuthor: true }),
     });
     if (response.ok) {
       await response.json();

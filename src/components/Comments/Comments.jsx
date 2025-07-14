@@ -6,7 +6,7 @@ export default function Comments({ comments }) {
       {comments.map((comment) => (
         <div className="comment" key={comment.id}>
           <h2>{comment.User.username}</h2>
-          <p>{comment.text}</p>
+          <div dangerouslySetInnerHTML={{ __html: comment.text }} />
           <p>{formatDateTime(comment.created)}</p>
         </div>
       ))}
