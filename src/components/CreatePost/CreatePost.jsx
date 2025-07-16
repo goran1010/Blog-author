@@ -21,6 +21,7 @@ export default function CreatePost({ postCreated }) {
     try {
       e.preventDefault();
       const text = editorRef.current.getContent();
+      console.log(user);
       const response = await fetch(`${VITE_URL}/api/posts/`, {
         mode: "cors",
         method: "POST",
