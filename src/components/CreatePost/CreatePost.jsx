@@ -10,7 +10,8 @@ export default function CreatePost({ postCreated }) {
   const [title, setTitle] = useState("");
 
   function handleIsPublished(e) {
-    setIsPublished(e.target.value);
+    let published = e.target.value === "true" ? "false" : "true";
+    setIsPublished(published);
   }
 
   function handleTitle(e) {
@@ -19,6 +20,7 @@ export default function CreatePost({ postCreated }) {
 
   const handleSubmit = async (e) => {
     try {
+      console.log(isPublished);
       e.preventDefault();
       const text = editorRef.current.getContent();
       await fetch(`${VITE_URL}/api/posts/`, {

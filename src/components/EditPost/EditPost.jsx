@@ -10,7 +10,8 @@ export default function EditPost({ postCreated, post }) {
   const [title, setTitle] = useState(post.title);
 
   function handleIsPublished(e) {
-    setIsPublished(e.target.value);
+    let published = e.target.value === "true" ? "false" : "true";
+    setIsPublished(published);
   }
 
   function handleTitle(e) {
