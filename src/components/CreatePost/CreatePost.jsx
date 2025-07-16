@@ -18,21 +18,24 @@ export default function CreatePost({ postCreated }) {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const text = editorRef.current.getContent();
-    const result = await fetch(`${VITE_URL}/api/posts/`, {
-      mode: "cors",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-      body: JSON.stringify({ text, title, isPublished }),
-    });
-    postCreated();
-    editorRef.current.setContent("");
-    const response = await result.json();
-    console.log(result, response);
+    try {
+      e.preventDefault();
+      const text = editorRef.current.getContent();
+      const response = await fetch(`${VITE_URL}/api/posts/`, {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ text, title, isPublished }),
+      });
+      postCreated();
+      editorRef.current.setContent("");
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
