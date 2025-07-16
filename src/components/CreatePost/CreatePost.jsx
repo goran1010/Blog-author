@@ -21,8 +21,7 @@ export default function CreatePost({ postCreated }) {
     try {
       e.preventDefault();
       const text = editorRef.current.getContent();
-      console.log(user);
-      const response = await fetch(`${VITE_URL}/api/posts/`, {
+      await fetch(`${VITE_URL}/api/posts/`, {
         mode: "cors",
         method: "POST",
         headers: {
@@ -33,7 +32,6 @@ export default function CreatePost({ postCreated }) {
       });
       postCreated();
       editorRef.current.setContent("");
-      console.log(response);
     } catch (err) {
       console.error(err);
     }

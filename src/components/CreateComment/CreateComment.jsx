@@ -10,7 +10,7 @@ export default function CreateComment({ postId, commentCreated }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const text = editorRef.current.getContent();
-    await fetch(`${VITE_URL}/posts/${postId}/comments`, {
+    await fetch(`${VITE_URL}/api/posts/${postId}/comments`, {
       mode: "cors",
       method: "POST",
       headers: {

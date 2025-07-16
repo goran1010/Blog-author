@@ -1,7 +1,5 @@
 const VITE_URL = import.meta.env.VITE_URL || "http://localhost:3000";
 
-console.log(VITE_URL);
-
 export default async function getAllPosts() {
   const response = await fetch(`${VITE_URL}/api/posts`, {
     mode: "cors",
