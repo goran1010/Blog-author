@@ -1,0 +1,30 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+.item {
+  align-self: center;
+}
+.legend {
+  font-weight: bold;
+  font-size: large;
+}
+.titleInput {
+  font-weight: bold;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  padding: 2px;
+  font-size: medium;
+}
+.button {
+  border: 1px solid darkorange;
+  font-weight: bold;
+  color: darkorange;
+  border-radius: 3px;
+  font-size: 14px;
+  padding: 5px 10px;
+  cursor: pointer;
+}

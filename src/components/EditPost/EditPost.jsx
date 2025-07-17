@@ -2,16 +2,19 @@ import { useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
 const VITE_URL = import.meta.env.VITE_URL || "http://localhost:3000";
+const VITE_API_URL = import.meta.env.VITE_API_URL;
+import styles from "./EditPost.module.css";
+import AlertMessage from "../AlertMessage/AlertMessage.jsx";
 
 export default function EditPost({ postCreated, post }) {
   const { user } = useOutletContext();
   const editorRef = useRef(null);
   const [isPublished, setIsPublished] = useState(post.isPublished);
   const [title, setTitle] = useState(post.title);
+  const [alert, setAlert] = useState(null);
 
   function handleIsPublished(e) {
-    let published = e.target.value === "true" ? "false" : "true";
-    setIsPublished(published);
+    setIsPublished(e.target.checked);
   }
 
   function handleTitle(e) {
@@ -20,11 +23,15 @@ export default function EditPost({ postCreated, post }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let text = editorRef.current.getContent();
-    if (!text) {
-      text = post.text;
+
+    const hasText = editorRef.current.getContent({ format: "text" }).trim();
+    if (!hasText) {
+      setAlert("Couldn't create Post - Text can't be empty");
+      return;
     }
-    await fetch(`${VITE_URL}/api/posts/${post.id}`, {
+    const text = editorRef.current.getContent();
+    setAlert(null);
+    const response = await fetch(`${VITE_URL}/api/posts/${post.id}`, {
       mode: "cors",
       method: "PUT",
       headers: {
@@ -33,15 +40,27 @@ export default function EditPost({ postCreated, post }) {
       },
       body: JSON.stringify({ text, title, isPublished }),
     });
+    const result = await response.json();
+    if (!response.ok) {
+      setAlert(result.errors.msg);
+      //eslint-disable-next-line no-console
+      console.log(response);
+      return;
+    }
+    setAlert(null);
     postCreated();
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <legend>Edit this Post:</legend>
-      <div className="title">
-        <label htmlFor="title">Title: </label>
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <legend className={`${styles.item} ${styles.legend}`}>
+        Edit this Post:
+      </legend>
+      <div className={styles.item}>
+        <label htmlFor="title">Edit title: </label>
         <input
+          required
+          className={styles.titleInput}
           type="text"
           name="title"
           id="title"
@@ -50,29 +69,34 @@ export default function EditPost({ postCreated, post }) {
         />
       </div>
       <Editor
-        apiKey="aldlsz4vjcvdf3wag1e3d6n2nlx252mfjhc239fjuilwbt9l"
+        apiKey={VITE_API_URL}
         onInit={(evt, editor) => (editorRef.current = editor)}
         initialValue={post.text}
         init={{
+          resize: false,
           height: 300,
-          width: 400,
           menubar: false,
           plugins: "link image code",
           toolbar:
             "undo redo | formatselect | bold italic | alignleft aligncenter alignright | code",
         }}
       />
-      <div className="isPublished">
-        <label htmlFor="isPublished">Publish Post </label>{" "}
+      <div className={styles.item}>
+        <label htmlFor="isPublished">
+          Edit Post as <strong>published</strong>
+        </label>{" "}
         <input
           type="checkbox"
           name="isPublished"
           id="isPublished"
-          value={isPublished}
+          checked={isPublished}
           onChange={handleIsPublished}
         />
       </div>
-      <button type="submit">Edit Post</button>
+      <button className={`${styles.item} ${styles.button}`} type="submit">
+        Edit Post
+      </button>
+      {alert && <AlertMessage alert={alert} />}
     </form>
   );
 }

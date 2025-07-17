@@ -1,0 +1,68 @@
+.main-no-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: italic;
+}
+.important {
+  font-weight: bold;
+}
+.hr {
+  height: 2px;
+  background-color: black;
+  border: none;
+  border-radius: 2px;
+}
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+.post {
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  box-shadow: 0 0 10px 5px black;
+  padding: 5px;
+
+  background-color: rgba(255, 255, 255, 0.6);
+}
+.title {
+  align-self: center;
+}
+.author {
+  align-self: flex-end;
+  font-style: italic;
+}
+.text {
+  align-self: stretch;
+  padding: 0 10px;
+}
+.date {
+  align-self: flex-end;
+  font-style: italic;
+}
+.comments {
+  align-self: flex-end;
+  font-style: italic;
+}
+.isPublishedTrue {
+  align-self: end;
+  color: green;
+}
+.isPublishedFalse {
+  align-self: end;
+  color: red;
+}
+.link {
+  text-decoration: none;
+  align-self: center;
+  font-weight: bold;
+}
+.span {
+  font-style: normal;
+  font-weight: bold;
+}

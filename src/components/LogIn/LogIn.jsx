@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useOutletContext, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import styles from "./LogIn.module.css";
 const VITE_URL = import.meta.env.VITE_URL || "http://localhost:3000";
+import AlertMessage from "../AlertMessage/AlertMessage.jsx";
 
 function LogIn() {
+  const [alert, setAlert] = useState(null);
   const { setUser } = useOutletContext();
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -25,7 +28,8 @@ function LogIn() {
       navigator("/");
     } else {
       // eslint-disable-next-line no-console
-      console.error(result);
+      console.error(result.message);
+      setAlert(result.message);
     }
   }
   function handleUsername(e) {
@@ -36,32 +40,41 @@ function LogIn() {
   }
 
   return (
-    <main>
-      <form onSubmit={handleSubmit}>
-        <legend>Log in here</legend>
-        <div className="username">
+    <main className={styles.main}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <legend className={styles.legend}>Log in</legend>
+        <div className={styles.log}>
           <label htmlFor="username">Username:</label>
           <input
+            className={styles.input}
             type="text"
             id="username"
             name="username"
+            required
             value={username}
             onChange={handleUsername}
           />
         </div>
-        <div className="password">
+        <div className={styles.log}>
           <label htmlFor="password">Password:</label>
           <input
+            className={styles.input}
             type="password"
             id="password"
             name="password"
+            required
             value={password}
             onChange={handlePassword}
           />
         </div>
-        <button type="submit">Log in</button>
+        <button className={styles.button} type="submit">
+          Log in
+        </button>
       </form>
-      <Link to="/">Back Home</Link>
+      <Link className={styles.link} to="/">
+        Go to Home page
+      </Link>
+      {alert && <AlertMessage alert={alert} />}
     </main>
   );
 }

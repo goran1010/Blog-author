@@ -19,10 +19,10 @@ function Root() {
     setLoadingUser(false);
   }, []);
   return (
-    <>
+    <div className="container">
       <PageTitle />
       <Outlet context={{ user, setUser, loadingUser, setLoadingUser }}></Outlet>
-    </>
+    </div>
   );
 }
 export default Root;

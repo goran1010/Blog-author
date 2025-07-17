@@ -7,6 +7,8 @@ import EditPost from "../EditPost/EditPost.jsx";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../Spinner/Spinner.jsx";
 const VITE_URL = import.meta.env.VITE_URL || "http://localhost:3000";
+import styles from "./Post.module.css";
+import formatDateTime from "../../scripts/formatDateTime.js";
 
 function Post() {
   const navigator = useNavigate();
@@ -51,19 +53,43 @@ function Post() {
     );
   }
   return (
-    <main>
-      <div className="post">
-        <h1>{post.title}</h1>
-        <p>{post.User.username}</p>
-        {post.isPublished ? <p>Is LIVE</p> : <p>Is NOT Live</p>}
-        <div>{post.text}</div>
-        <p>{post.created}</p>
-        <EditPost postCreated={fetchPost} post={post} />
-        <button onClick={deletePost}>Delete Post</button>
-        {post.comments.length > 0 ? (
-          <Comments comments={post.comments} />
+    <main className={styles.main}>
+      <div className={styles.post} key={post.id}>
+        <h2 className={styles.title}>{post.title}</h2>
+        <p className={styles.author}>
+          Posted by: <span className={styles.span}>{post.User.username}</span>
+        </p>
+        <hr className={styles.hrThin} />
+        <div
+          className={styles.text}
+          dangerouslySetInnerHTML={{ __html: post.text }}
+        />
+        <hr className={styles.hrThin} />
+        <p className={styles.date}>
+          Posted on:{" "}
+          <span className={styles.span}>{formatDateTime(post.created)}</span>
+        </p>
+
+        {post.isPublished ? (
+          <p className={styles.isPublishedTrue}>Post is LIVE</p>
         ) : (
-          <p>No comments here.</p>
+          <p className={styles.isPublishedFalse}>Post is NOT Live</p>
+        )}
+        <hr className={styles.hr} />
+        <EditPost postCreated={fetchPost} post={post} />
+        <button className={styles.button} onClick={deletePost}>
+          Delete Post
+        </button>
+        <hr className={styles.hr} />
+        {post.comments.length > 0 ? (
+          <Comments
+            comments={post.comments}
+            user={user}
+            post={post}
+            commentDeleted={fetchPost}
+          />
+        ) : (
+          <p className={styles.noComments}>This post has no comments.</p>
         )}
       </div>
 
@@ -72,7 +98,9 @@ function Post() {
       ) : (
         <p>You need to be Logged in to comment!</p>
       )}
-      <Link to="/">Go to Home Page</Link>
+      <Link className={styles.link} to="/">
+        Go to Home Page
+      </Link>
     </main>
   );
 }

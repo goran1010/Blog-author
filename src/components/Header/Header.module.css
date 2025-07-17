@@ -1,0 +1,23 @@
+.header-logged-in {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.name {
+  font-weight: bold;
+}
+.link {
+  text-decoration: none;
+  font-weight: bold;
+}
+.welcome {
+  font-style: italic;
+}
+.paragraph {
+  font-size: large;
+}
+.header-logged-out {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

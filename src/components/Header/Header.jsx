@@ -1,5 +1,6 @@
 import { useOutletContext, Link } from "react-router-dom";
 import Spinner from "../Spinner/Spinner.jsx";
+import styles from "./Header.module.css";
 
 function Home() {
   const { user, setUser, loadingUser } = useOutletContext();
@@ -18,20 +19,34 @@ function Home() {
   return (
     <>
       {user ? (
-        <header>
-          <p>Welcome back {user.username} !</p>
-          <Link onClick={logOut}> Log out</Link>
+        <header className={styles["header-logged-in"]}>
+          <p className={styles.paragraph}>
+            <span className={styles.welcome}>Welcome back</span>{" "}
+            <span className={styles.name}>{user.username}</span>
+          </p>
+          <Link onClick={logOut} className={styles.link}>
+            {" "}
+            Log out
+          </Link>
         </header>
       ) : (
-        <header>
-          <p>Welcome Guest</p>
+        <header className={styles["header-logged-out"]}>
+          <p className={styles.paragraph}>
+            <span className={styles.welcome}>Welcome</span> Guest
+          </p>
           <p>
             If you already have an account, you can{" "}
-            <Link to="/log-in">log in here</Link> !
+            <Link className={styles.link} to="/log-in">
+              log in here
+            </Link>{" "}
+            !
           </p>
           <p>
             If you are new, you can{" "}
-            <Link to="/register">create a new account here</Link> !
+            <Link className={styles.link} to="/register">
+              create a new account here
+            </Link>{" "}
+            !
           </p>
         </header>
       )}

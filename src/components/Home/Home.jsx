@@ -5,6 +5,7 @@ import { Link, useOutletContext } from "react-router-dom";
 import formatDateTime from "../../scripts/formatDateTime.js";
 import CreatePost from "../CreatePost/CreatePost.jsx";
 import Spinner from "../Spinner/Spinner.jsx";
+import styles from "./Home.module.css";
 
 function Home() {
   const [loadingPosts, setLoadingPosts] = useState(true);
@@ -22,6 +23,7 @@ function Home() {
     try {
       fetchAllPosts();
     } catch (err) {
+      //eslint-disable-next-line no-console
       console.error(err);
     } finally {
       setLoadingPosts(false);
@@ -40,30 +42,53 @@ function Home() {
     <>
       <Header />
       {!user || !user.isAuthor ? (
-        <main>
-          Need to be logged in and an author to create, view, edit and delete
-          posts.
+        <main className={styles["main-no-user"]}>
+          <p>
+            You need to be <span className={styles.important}>logged in</span>{" "}
+            and an <span className={styles.important}>author</span> to create,
+            view, edit or delete posts.
+          </p>
         </main>
       ) : (
         <main>
           <CreatePost postCreated={postCreated} />
-          <div className="posts">
+
+          <div className={styles.posts}>
+            <hr className={styles.hr} />
             {allPosts.map((post) => {
               return (
-                <div className="post" key={post.id}>
-                  <h2>
-                    <Link to={`/posts/${post.id}`}>{post.title}</Link>
-                  </h2>
-                  <h3>{post.User.username}</h3>
-                  <p>
-                    {post.isPublished ? (
-                      <span className="isPublished">Post is LIVE</span>
-                    ) : (
-                      <span className="isNotPublished">Post is NOT Live</span>
-                    )}
+                <div className={styles.post} key={post.id}>
+                  <h2 className={styles.title}>{post.title}</h2>
+                  <p className={styles.author}>
+                    Posted by:{" "}
+                    <span className={styles.span}>{post.User.username}</span>
                   </p>
-                  <div dangerouslySetInnerHTML={{ __html: post.text }} />
-                  <p>{formatDateTime(post.created)}</p>
+                  <hr className={styles.hrThin} />
+                  <div
+                    className={styles.text}
+                    dangerouslySetInnerHTML={{ __html: post.text }}
+                  />
+                  <hr className={styles.hrThin} />
+                  <p className={styles.date}>
+                    Posted on:{" "}
+                    <span className={styles.span}>
+                      {formatDateTime(post.created)}
+                    </span>
+                  </p>
+                  <p className={styles.comments}>
+                    Number of comments:{" "}
+                    <span className={styles.span}>{post.comments.length}</span>
+                  </p>
+
+                  {post.isPublished ? (
+                    <p className={styles.isPublishedTrue}>Post is LIVE</p>
+                  ) : (
+                    <p className={styles.isPublishedFalse}>Post is NOT Live</p>
+                  )}
+
+                  <Link to={`/posts/${post.id}`} className={styles.link}>
+                    View Post
+                  </Link>
                 </div>
               );
             })}

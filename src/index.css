@@ -6,3 +6,24 @@
     "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
     sans-serif;
 }
+.container {
+  overflow: auto;
+  padding: 10px 20%;
+  background-color: rgba(255, 255, 255, 0.664);
+  /* width: min(90%, 900px); */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+body {
+  filter: none;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  justify-content: center;
+  background-image: url("./images/background-image.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
